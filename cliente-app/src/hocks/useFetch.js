@@ -6,15 +6,18 @@ import { ERROR_SALE, SEND_SALE, UPLOADING, DELETE_SALE } from "../action/Fetch";
 export const useFetch = (endpoing) => {
   const [state, dispatch] = useReducer(reducerFetch, initialState);
 
-  const getData = async () => {
-    
+  const getData = async (endpoing) => {
+    //http://localhost:3001/api
     try {
       console.log(`get data`);
-      let { data } = await API.get(endpoing);
+
+      
+      
+      const {data} = await API.get(endpoing)
       console.log(data);
       dispatch({ type: SEND_SALE, payload: data });
     } catch (error) {
-      console.log(error);
+      console.log( error.message);
       dispatch({ type: ERROR_SALE });
     }
   };
