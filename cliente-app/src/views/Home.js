@@ -26,12 +26,16 @@ const Home = () => {
   };
   const handlerDeledPress = (id) => {
     console.log(`id ${id}`);
-    console.log(`press`);
-     setEndpointDeletd(`/ventas/${id + 1}`)
-    console.log(`endpointDeletd ${endpointDeletd}`);
-    deleteData(endpointDeletd)
-    getData(endpoint);
+    setEndpointDeletd(`/ventas/${id}`)
+   
   };
+  useEffect(() => {
+    if (endpointDeletd) {
+      console.log(`endpointDeletd ${endpointDeletd}`);
+      deleteData(endpointDeletd);
+      getData(endpoint);
+    }
+  }, [endpointDeletd]);
   return (
     <View>
       <Button title="New sale" onPress={hendlerNavigatePress} />
