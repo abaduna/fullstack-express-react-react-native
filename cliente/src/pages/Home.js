@@ -4,24 +4,29 @@ import Table from "react-bootstrap/Table";
 import NavBar from "../componets/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "react-bootstrap/esm/Button";
-import {  format } from "date-fns";
+import { format } from "date-fns";
 function Home() {
   const [endpoint, setEndpoint] = useState("/ventas");
   const [endpointDeletd, setEndpointDeletd] = useState("");
-  const { state, getData,deleteData } = useFetch(endpoint);
+  const { state, getData, deleteData } = useFetch(endpoint);
   const { data, loading, error } = state;
   console.log(data.data);
 
   useEffect(() => {
     getData(endpoint);
   }, []);
-  const handlerDeletdClick =async(id)=>{
-    console.log(id);
-    await setEndpointDeletd(`/ventas/${id}`)
-    console.log(endpointDeletd);
-    deleteData(endpointDeletd)
-    getData(endpoint);
-  }
+  const handlerDeletdClick = async(id) => {
+    console.log(`id ${id}`);
+    setEndpointDeletd(`/ventas/${id}`);
+    
+  };
+  useEffect(() => {
+    if (endpointDeletd) {
+      console.log(`endpointDeletd ${endpointDeletd}`);
+      deleteData(endpointDeletd);
+      getData(endpoint);
+    }
+  }, [endpointDeletd]);
   return (
     <>
       <NavBar />
@@ -42,10 +47,12 @@ function Home() {
               <tr key={sale.id}>
                 <td>{sale.title}</td>
                 <td>{sale.price}</td>
-                <td>{format(sale.data,"yyyy-MM-dd") }</td>
-                <td>{format(sale.data,"H-m") }</td>
+                <td>{format(sale.data, "yyyy-MM-dd")}</td>
+                <td>{format(sale.data, "H-m")}</td>
                 <td>
-                  <Button onClick={()=>handlerDeletdClick(sale.id)}>Borrar</Button>
+                  <Button onClick={() => handlerDeletdClick(sale.id)}>
+                    Borrar
+                  </Button>
                 </td>
               </tr>
             ))}

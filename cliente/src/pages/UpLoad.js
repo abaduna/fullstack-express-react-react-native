@@ -5,11 +5,14 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { useFetch } from "../hoock/useFetch";
 import NavBar from "../componets/NavBar";
+import Alert from 'react-bootstrap/Alert';
 const UpLoad = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(null);
   const [endpoing,setEndpoint]=useState("/ventas")
-  const {postData} =useFetch(endpoing)
+  const [successfully,setSuccessfully] = useState(false)
+  const [errorSpam,setErrorSpam] = useState(false)
+  const {state,postData} =useFetch(endpoing)
   const handlerSendDataClick = (e) => {
     e.preventDefault();
     const data = {
@@ -17,10 +20,29 @@ const UpLoad = () => {
       price
     }
     postData(endpoing,data)
+    setTitle("")
+    setPrice("")
+      
+    setSuccessfully(true)
+    setTimeout(() => {
+      setSuccessfully(false)
+    }, 1200);
   };
+  if (state.error) {
+    setErrorSpam(true)
+    setTimeout(() => {
+      setErrorSpam(false)
+    }, 500);
+  }
   return (
     <div>
       <NavBar/>
+      {successfully &&<Alert  variant="success">
+      Successful data 
+        </Alert> }
+        {setErrorSpam &&<Alert  variant="danger">
+      error
+        </Alert> }
       <form>
         <InputGroup className="mb-3">
           <Form.Control
