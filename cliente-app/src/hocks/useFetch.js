@@ -14,7 +14,6 @@ export const useFetch = (endpoing) => {
       
       
       const {data} = await API.get(endpoing)
-      console.log(data);
       dispatch({ type: SEND_SALE, payload: data });
     } catch (error) {
       console.log( error.message);
@@ -25,7 +24,6 @@ export const useFetch = (endpoing) => {
   const postData = async (endpoing, data) => {
     try {
       const dataRespons = await API.post(endpoing, data);
-      console.log(dataRespons);
       dispatch({ type: UPLOADING });
     } catch (error) {
       dispatch({ type: ERROR_SALE });
@@ -34,8 +32,7 @@ export const useFetch = (endpoing) => {
 
   const deleteData = async (endpoint) => {
     try {
-      const response = await API.delete(endpoint);
-      console.log(response);
+      const response = await API.delete(endpoint)
       dispatch({ type: DELETE_SALE });
     } catch (error) {
       dispatch({ type: ERROR_SALE });
